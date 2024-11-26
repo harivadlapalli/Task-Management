@@ -1,0 +1,29 @@
+.slds-card__header {
+    background-color: #f3f3f3;
+}
+
+.slds-button_brand {
+    margin-top: 15px;
+}
+
+.slds-hidden {
+    display: none;
+}
+
+.slds-text-link {
+    cursor: pointer;
+}
+
+.slds-truncate {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.slds-table_edit_container {
+    margin-top: 20px;
+}
+
+.new-task-button {
+    margin-bottom: 20px; /* Add some space between the button and the table */
+}

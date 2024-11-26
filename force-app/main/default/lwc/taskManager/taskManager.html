@@ -1,0 +1,114 @@
+<template>
+    <lightning-card title="Task Manager System" icon-name="custom:custom14">
+        <div class="slds-grid slds-grid_align-spread slds-p-around_small">
+            <lightning-button label="New" variant="brand" onclick={openNewTaskModal}></lightning-button>
+        </div>
+
+        <div class="slds-grid slds-grid_align-spread slds-p-around_medium">
+            <!-- Priority Filter -->
+            <div class="slds-grid">
+                <lightning-button-icon
+                    icon-name="utility:filter"
+                    alternative-text="Filter Priority"
+                    size="small"
+                    onclick={togglePriorityFilter}>
+                </lightning-button-icon>
+                <span class="slds-p-left_small">Priority Filter</span>
+            </div>
+
+            <!-- Status Filter -->
+            <div class="slds-grid">
+                <lightning-button-icon
+                    icon-name="utility:filter"
+                    alternative-text="Filter Status"
+                    size="small"
+                    onclick={toggleStatusFilter}>
+                </lightning-button-icon>
+                <span class="slds-p-left_small">Status Filter</span>
+            </div>
+        </div>
+    
+        <!-- Task Data Table -->
+        <div class="slds-p-around_medium">
+            <lightning-datatable
+                key-field="Id"
+                data={tasks}
+                columns={columns}
+                onrowaction={handleRowAction}>
+            </lightning-datatable>
+        </div>
+    
+        <!-- Modal for Task Creation -->
+        <template if:true={isModalOpen}>
+            <section class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <h2 class="slds-text-heading_medium">New Task</h2>
+                        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" onclick={closeModal}>
+                            <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"></lightning-icon>
+                        </button>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium">
+                        <lightning-input label="Task Name" value={taskName} onchange={handleTaskNameChange} required></lightning-input>
+                        <lightning-textarea label="Description" value={taskDescription} onchange={handleDescriptionChange}></lightning-textarea>
+                        <lightning-input label="Due Date" type="date" value={dueDate} onchange={handleDueDateChange}></lightning-input>
+                        <lightning-combobox label="Priority" value={taskPriority} options={priorityOptions} onchange={handlePriorityChange}></lightning-combobox>
+                        <lightning-combobox label="Status" value={taskStatus} options={statusOptions} onchange={handleStatusChange}></lightning-combobox>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <lightning-button label="Cancel" onclick={closeModal}></lightning-button>
+                        <lightning-button label="Save" variant="brand" onclick={createTask}></lightning-button>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </template>
+    
+        <!-- Modal for Updating Status -->
+        <template if:true={isUpdateStatusModalOpen}>
+            <section class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <h2 class="slds-text-heading_medium">Update Status</h2>
+                        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" onclick={closeUpdateStatusModal}>
+                            <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"></lightning-icon>
+                        </button>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium">
+                        <lightning-combobox
+                            label="Status"
+                            value={selectedStatus}
+                            options={statusOptions}
+                            onchange={handleStatusChange}>
+                        </lightning-combobox>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <lightning-button label="Cancel" onclick={closeUpdateStatusModal}></lightning-button>
+                        <lightning-button label="Save" variant="brand" onclick={saveUpdatedStatus}></lightning-button>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </template>
+            <!-- Filter Dropdown for Priority -->
+        <template if:true={isPriorityFilterOpen}>
+            <lightning-combobox
+                label="Priority"
+                value={taskPriority}
+                options={priorityOptions}
+                onchange={handlePriorityFilterChange}>
+            </lightning-combobox>
+        </template>
+        <!-- Filter Dropdown for Status -->
+        <template if:true={isStatusFilterOpen}>
+            <lightning-combobox
+                label="Status"
+                value={taskStatus}
+                options={statusOptions}
+                onchange={handleStatusFilterChange}>
+            </lightning-combobox>
+        </template>
+        
+    </lightning-card>
+    
+</template>
