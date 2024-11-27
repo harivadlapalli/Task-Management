@@ -12,7 +12,7 @@ export default class TaskManager extends LightningElement {
     @track taskDescription = '';
     @track dueDate = '';
     @track taskPriority = '';
-    @track taskStatus = 'New';
+    @track taskStatus = '';
     @track isModalOpen = false;
     @track isUpdateStatusModalOpen = false;
     @track selectedStatus;
@@ -132,6 +132,7 @@ export default class TaskManager extends LightningElement {
             alert('Due Date cannot be in the past');
             return;
         }
+        this.taskStatus = 'New';
 
         const task = {
             Name: this.taskName,
